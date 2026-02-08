@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8e8e8" />
+
+  <title>모바일 청첩장 데모</title>
+  <meta name="description" content="우리 결혼합니다. 모바일 청첩장 데모 페이지" />
+
+  <!-- Open Graph (카톡/문자 공유 미리보기) -->
+  <meta property="og:title" content="모바일 청첩장 데모" />
+  <meta property="og:description" content="우리 결혼합니다. 초대합니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/og.jpg" />
+  <meta property="og:url" content="" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+
+<body>
+  <!-- 상단 고정 컨트롤 -->
+  <div class="topbar">
+    <button class="chip" id="btnCopyLink" type="button">링크 복사</button>
+    <button class="chip" id="btnMusic" type="button" aria-pressed="false">
+      <span id="musicLabel">브금 OFF</span>
+    </button>
+  </div>
+
+  <!-- 배경 BGM (config.js에서 경로/정책 수정, 모바일은 버튼으로만 재생) -->
+  <audio id="bgm" preload="auto" loop></audio>
+
+  <!-- HERO: 첫 화면 (전체 너비, PC에서도 풀 브리드) -->
+  <section class="hero reveal">
+    <div class="hero-cover" id="heroCover"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-deco"></div>
+    <div class="hero-flowers" aria-hidden="true">
+      <div class="flower f1"><img src="./assets/images/hero-flower-1.svg" alt="" /></div>
+      <div class="flower f2"><img src="./assets/images/hero-flower-2.svg" alt="" /></div>
+      <div class="flower f3"><img src="./assets/images/hero-flower-3.svg" alt="" /></div>
+      <div class="flower f4"><img src="./assets/images/hero-flower-4.svg" alt="" /></div>
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-names" id="heroNames">김경종 & 김부선</h1>
+      <p class="hero-phrase" id="heroPhrase">우리, 결혼합니다</p>
+      <p class="hero-date" id="heroDate">2027. 03. 08 (토) 오후 12시 00분</p>
+      <p class="hero-venue" id="heroVenue">OO웨딩홀 O층 O홀</p>
+      <p class="parents hero-parents" id="heroParents">신랑 김○○의 아들 · 신부 김○○의 딸</p>
+      <p class="hint" id="heroHint"></p>
+      <div class="hero-profiles">
+        <div class="profile-img" id="heroGroomImg" aria-label="신랑"></div>
+        <div class="profile-img" id="heroBrideImg" aria-label="신부"></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <!-- 인사말 -->
+    <section class="card reveal">
+      <h2 class="section-title">초대합니다</h2>
+      <p class="section-text">
+        서로의 하루를 응원하며 걸어온 우리가<br />
+        이제 부부로 새로운 시작을 하려 합니다.<br />
+        바쁘시더라도 오셔서 축복해 주세요.
+      </p>
+
+      <div class="parents-block">
+        <p class="parents-line"><span class="groom-parents" id="inviteGroomParents">김○○ · 이○○의 아들</span></p>
+        <p class="parents-line"><span class="bride-parents" id="inviteBrideParents">김○○ · 박○○의 딸</span></p>
+      </div>
+      <div class="names">
+        <div class="name-row"><span class="label">신랑</span><span class="value">김경종</span></div>
+        <div class="name-row"><span class="label">신부</span><span class="value">김부선</span></div>
+      </div>
+    </section>
+
+    <!-- D-DAY -->
+    <section class="card reveal">
+      <h2 class="section-title">D-DAY</h2>
+      <div class="dday">
+        <div class="dday-big" id="ddayBig">D-000</div>
+        <div class="dday-grid">
+          <div class="dday-box">
+            <div class="k">DAYS</div>
+            <div class="v" id="ddayDays">0</div>
+          </div>
+          <div class="dday-box">
+            <div class="k">HOURS</div>
+            <div class="v" id="ddayHours">0</div>
+          </div>
+          <div class="dday-box">
+            <div class="k">MIN</div>
+            <div class="v" id="ddayMins">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 갤러리 -->
+    <section class="card reveal">
+      <h2 class="section-title" id="galleryTitle">갤러리</h2>
+      <div class="gallery">
+        <button class="g-item" type="button" aria-label="갤러리 1"></button>
+        <button class="g-item" type="button" aria-label="갤러리 2"></button>
+        <button class="g-item" type="button" aria-label="갤러리 3"></button>
+        <button class="g-item" type="button" aria-label="갤러리 4"></button>
+        <button class="g-item" type="button" aria-label="갤러리 5"></button>
+        <button class="g-item" type="button" aria-label="갤러리 6"></button>
+      </div>
+    </section>
+
+    <!-- 오시는 길 -->
+    <section class="card reveal">
+      <h2 class="section-title">오시는 길</h2>
+      <div class="info">
+        <div class="info-row">
+          <div class="k">장소</div>
+          <div class="v" id="venuePlace">OO웨딩홀 O층 O홀</div>
+        </div>
+        <div class="info-row">
+          <div class="k">주소</div>
+          <div class="v" id="venueAddr">서울시 강남구 테헤란로 123</div>
+        </div>
+        <div class="info-row" id="venuePhoneRow">
+          <div class="k">문의</div>
+          <div class="v"><a href="tel:" id="venuePhone">02-1234-5678</a></div>
+        </div>
+        <div class="info-row" id="venueTransitRow">
+          <div class="k">대중교통</div>
+          <div class="v" id="venueTransit">2호선 역삼역 3번 출구 도보 5분</div>
+        </div>
+        <div class="info-row" id="venueParkingRow">
+          <div class="k">주차</div>
+          <div class="v" id="venueParking">건물 지하 주차장 2시간 무료</div>
+        </div>
+        <div class="btns">
+          <a class="btn" id="btnKakaoMap" href="https://map.kakao.com/" target="_blank" rel="noreferrer">카카오맵</a>
+          <a class="btn" id="btnNaverMap" href="https://map.naver.com/" target="_blank" rel="noreferrer">네이버지도</a>
+          <button class="btn" id="btnCopyAddr" type="button">주소 복사</button>
+        </div>
+      </div>
+
+      <div class="map-wrapper">
+        <div id="mapContainer" class="map-container" aria-hidden="true"></div>
+        <div id="mapPlaceholder" class="map-placeholder">
+          지도 영역 (config.js에 kakaoMapKey 입력 시 활성화)
+        </div>
+      </div>
+    </section>
+
+    <!-- 마음 전하실 곳 -->
+    <section class="card reveal" id="accountSection">
+      <h2 class="section-title">마음 전하실 곳</h2>
+
+      <div class="accordion">
+        <button class="acc-head" type="button" aria-expanded="false">
+          신랑측 계좌 보기
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body">
+          <div class="acct">
+            <div class="acct-line"><span>은행</span><b id="groomBank">국민은행</b></div>
+            <div class="acct-line"><span>계좌</span><b id="groomAcct">123456-78-901234</b></div>
+            <div class="acct-line"><span>예금주</span><b id="groomHolder">김경종</b></div>
+          </div>
+          <button class="btn full" data-copy="#groomAcct" type="button">계좌 복사</button>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <button class="acc-head" type="button" aria-expanded="false">
+          신부측 계좌 보기
+          <span class="chev">▾</span>
+        </button>
+        <div class="acc-body">
+          <div class="acct">
+            <div class="acct-line"><span>은행</span><b id="brideBank">신한은행</b></div>
+            <div class="acct-line"><span>계좌</span><b id="brideAcct">110-123-456789</b></div>
+            <div class="acct-line"><span>예금주</span><b id="brideHolder">김부선</b></div>
+          </div>
+          <button class="btn full" data-copy="#brideAcct" type="button">계좌 복사</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 참석 의사 -->
+    <section class="card reveal">
+      <h2 class="section-title">참석 여부</h2>
+      <p class="rsvp-deadline" id="rsvpDeadline"></p>
+
+      <form class="rsvp" id="rsvpForm">
+        <div class="rsvp-attend">
+          <label class="radio-wrap"><input type="radio" name="attend" value="yes" required /> 참석합니다</label>
+          <label class="radio-wrap"><input type="radio" name="attend" value="no" /> 불참합니다</label>
+        </div>
+        <input class="input" name="name" placeholder="이름" required />
+        <input class="input" name="phone" placeholder="연락처 (선택)" />
+        <select class="input" name="count" required>
+          <option value="">참석 인원</option>
+          <option value="1">1명</option>
+          <option value="2">2명</option>
+          <option value="3">3명</option>
+          <option value="4">4명 이상</option>
+        </select>
+        <textarea class="input" name="memo" placeholder="참석 시 필요한 정보를 적어주세요." rows="3"></textarea>
+        <button class="btn full" type="submit">제출</button>
+      </form>
+    </section>
+
+    <footer class="footer reveal">
+      <div class="footline">© 2026 Wedding Invitation</div>
+    </footer>
+  </main>
+
+  <!-- 이미지 라이트박스 -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lb-close" id="lbClose" type="button" aria-label="닫기">×</button>
+    <div class="lb-content" id="lbContent"></div>
+  </div>
+
+  <script src="./assets/config.js"></script>
+  <script src="./assets/app.js"></script>
+</body>
+
+</html>
